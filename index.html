@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>해온 한모금 다이어트 | 모바일 가이드</title>
+    <!-- 프리텐다드 웹폰트 로드 -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Pretendard', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            forest: '#064e3b',   // 딥 포레스트 (신뢰)
+                            sage: '#f0fdf4',     // 세이지 그린 (디톡스)
+                            emerald: '#10b981',  // 에메랄드 (포인트)
+                            gold: '#a2845e',     // 프리미엄 골드
+                            slate: '#f8fafc',
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Pretendard', sans-serif; background-color: #ffffff; letter-spacing: -0.02em; word-break: keep-all; color: #1a202c; -webkit-tap-highlight-color: transparent; }
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* 모달 및 바텀 시트 */
+        #modal-backdrop { transition: opacity 0.3s ease-out; opacity: 0; pointer-events: none; backdrop-filter: blur(8px); }
+        #modal-backdrop.active { opacity: 1; pointer-events: auto; }
+        #modal-content { transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); transform: translateY(100%); }
+        #modal-content.active { transform: translateY(0); }
+        
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* 컨텐츠 스타일 */
+        .content-body h4 { font-size: 1.3rem; font-weight: 800; color: #064e3b; margin-top: 2rem; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; }
+        .content-body h4::before { content: ''; display: block; width: 5px; height: 22px; background-color: #10b981; border-radius: 2px; }
+        .content-body p { color: #475569; line-height: 1.8; margin-bottom: 1.2rem; font-size: 1rem; }
+        .content-body strong { color: #064e3b; font-weight: 700; }
+        .content-body ul { background-color: #f0fdf4; border-radius: 24px; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .content-body li { position: relative; padding-left: 1.5rem; margin-bottom: 0.8rem; color: #1e293b; font-size: 0.95rem; line-height: 1.6; }
+        .content-body li::before { content: '•'; position: absolute; left: 0.5rem; color: #10b981; font-weight: bold; }
+        
+        /* 카드 및 탭 디자인 */
+        .info-card { background-color: #ffffff; border: 1px solid #f1f5f9; border-radius: 28px; padding: 24px; box-shadow: 0 10px 30px -10px rgba(6,78,59,0.06); }
+        .doctor-card { border: 1.5px solid #f1f5f9; transition: all 0.3s ease; }
+        .doctor-card.active { border-color: #10b981; background-color: #f0fdf4; transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .tab-btn.active { background-color: #ffffff; color: #064e3b; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+
+        /* 비교 그리드 */
+        .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .compare-haeon { background: #ecfdf5; padding: 15px; border-radius: 20px; border: 1.5px solid #10b981; }
+        .compare-others { background: #f8fafc; padding: 15px; border-radius: 20px; border: 1px solid #e2e8f0; opacity: 0.7; }
+        .point-tag { font-size: 0.6rem; font-weight: 800; padding: 2px 8px; border-radius: 6px; margin-bottom: 6px; display: inline-block; }
+    </style>
+</head>
+<body class="antialiased pb-24">
+
+    <!-- [NAV] -->
+    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-30 border-b border-slate-50">
+        <div class="max-w-md mx-auto px-6 py-5 flex items-center justify-between">
+            <h1 class="text-xl font-black text-brand-forest tracking-tighter">
+                <span class="text-emerald-600">HAEON</span> KOREAN MEDICINE
+            </h1>
+            <div class="flex items-center gap-1.5 text-emerald-600">
+                <div class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></div>
+                <span class="text-[0.65rem] font-black uppercase tracking-widest">Premium App</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- [MAIN] -->
+    <main id="view-home" class="max-w-md mx-auto px-6 py-10 fade-in block">
+        <div class="mb-12">
+            <h2 class="text-[2.6rem] font-black mb-4 leading-[1.1] text-brand-forest tracking-tighter">
+                건강한 가벼움,<br>
+                <span class="text-emerald-500 underline underline-offset-8 decoration-4 decoration-emerald-100">한의학으로 설계하다</span>
+            </h2>
+            <p class="text-slate-500 text-md font-semibold leading-relaxed">
+                해온의 한의학적 통찰과 현대 과학의 조화.<br>당신의 인생 다이어트 파트너가 됩니다.
+            </p>
+        </div>
+
+        <!-- 탭 시스템 -->
+        <div class="flex bg-slate-100 p-1.5 rounded-3xl mb-12">
+            <button onclick="switchTab('guide')" id="tab-guide" class="tab-btn active flex-1 py-4 rounded-[1.4rem] font-black text-sm transition-all">다이어트 가이드</button>
+            <button onclick="switchTab('price')" id="tab-price" class="tab-btn flex-1 py-4 rounded-[1.4rem] font-black text-sm transition-all text-slate-400">프로그램 & 비용</button>
+        </div>
+
+        <!-- [TAB 1] 가이드 리스트 -->
+        <section id="section-guide" class="block">
+            <div id="category-list" class="flex flex-col gap-6">
+                <!-- JS 렌더링 -->
+            </div>
+        </section>
+
+        <!-- [TAB 2] 프로그램 & 가격 -->
+        <section id="section-price" class="hidden fade-in">
+            <div class="bg-emerald-50 p-7 rounded-[2.5rem] mb-10 border border-emerald-100 shadow-inner">
+                <p class="text-emerald-800 text-sm font-bold leading-relaxed">
+                    💓 한약과 관리로 이루어져 있으며 시그니처 프로그램은 전담 스태프와 AI 메신저 코칭이 함께 포함됩니다. 몸, 마음, 시스템 전체를 리셋하는 프리미엄 클리닉입니다. 🎀
+                </p>
+            </div>
+
+            <!-- 농축한약 -->
+            <div class="mb-12">
+                <h3 class="text-xl font-black text-brand-forest mb-6 pl-2 flex items-center gap-2">
+                    <i class="fa-solid fa-pills text-emerald-500"></i> 농축한약 프로그램
+                </h3>
+                <div class="space-y-4">
+                    <div class="info-card">
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-black text-lg text-brand-forest">알약 감비환</h4>
+                            <span class="bg-emerald-100 text-emerald-600 text-[0.6rem] font-black px-2 py-1 rounded">SIMPLE</span>
+                        </div>
+                        <p class="text-slate-400 text-[0.75rem] font-bold mb-4 italic">편리한 복용, 입문자를 위한 고농축 환</p>
+                        <div class="flex justify-between items-center text-sm font-bold mb-1">
+                            <span class="text-slate-600">3박스 (3개월분)</span>
+                            <span class="text-xl font-black text-brand-forest">24만원</span>
+                        </div>
+                        <p class="text-[0.6rem] text-slate-400 text-right font-medium">(1박스 9만원/45포)</p>
+                    </div>
+
+                    <div class="info-card border-brand-gold/30">
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-black text-lg text-brand-forest">공리탕 슬림</h4>
+                            <span class="bg-brand-gold text-white text-[0.6rem] font-black px-2 py-1 rounded">CUSTOM</span>
+                        </div>
+                        <p class="text-slate-400 text-[0.75rem] font-bold mb-4 italic">1:1 맞춤형 고농축 탕약 (60포 기준)</p>
+                        <div class="space-y-2 border-t border-slate-50 pt-4 font-bold text-sm">
+                            <div class="flex justify-between"><span>1개월</span><span>25만원</span></div>
+                            <div class="flex justify-between"><span>2개월</span><span>42만원</span></div>
+                            <div class="flex justify-between text-emerald-600 font-black"><span>3개월</span><span>59만원</span></div>
+                        </div>
+                    </div>
+
+                    <div class="info-card bg-emerald-50/30 border-emerald-200">
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-black text-lg text-brand-forest">공리탕 시그니처</h4>
+                            <span class="bg-brand-forest text-white text-[0.6rem] font-black px-2 py-1 rounded">SIGNATURE</span>
+                        </div>
+                        <p class="text-slate-400 text-[0.75rem] font-bold mb-4 italic">2+1 체질개선 + 전담 밀착 코칭</p>
+                        <div class="space-y-2 border-t border-emerald-100 pt-4 font-bold text-sm">
+                            <div class="flex justify-between"><span>1개월 (90포)</span><span>33만원</span></div>
+                            <div class="flex justify-between"><span>2개월</span><span>59만원</span></div>
+                            <div class="flex justify-between text-emerald-600 font-black text-lg"><span>3개월 (+관리 4회)</span><span>79만원</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 관리 -->
+            <div class="mb-12">
+                <h3 class="text-xl font-black text-brand-forest mb-6 pl-2 flex items-center gap-2">
+                    <i class="fa-solid fa-fire-flame-curved text-orange-500"></i> RE:FIT 관리 프로그램
+                </h3>
+                <div class="space-y-4">
+                    <div class="info-card">
+                        <h4 class="font-black text-lg text-brand-forest mb-2">슬림 집중 관리</h4>
+                        <p class="text-slate-400 text-[0.7rem] font-medium leading-relaxed mb-5">전침 + 고주파 + 디톡스겔 + 부항 + 교정 (부위별 집중 자극)</p>
+                        <div class="flex justify-between items-center bg-slate-50 p-4 rounded-2xl">
+                            <span class="text-xs font-bold text-slate-500 tracking-tighter">한약 병행 시 (회당)</span>
+                            <span class="text-xl font-black text-brand-forest">3만원</span>
+                        </div>
+                    </div>
+                    <div class="info-card border-emerald-100">
+                        <h4 class="font-black text-lg text-brand-forest mb-2">시그니처 복합 관리</h4>
+                        <p class="text-slate-400 text-[0.7rem] font-medium leading-relaxed mb-5">슬림관리 + 산삼비만약침 (지방분해 타격 및 배출)</p>
+                        <div class="flex justify-between items-center bg-brand-sage p-4 rounded-2xl">
+                            <span class="text-xs font-bold text-emerald-600 tracking-tighter">한약 병행 시 (회당)</span>
+                            <span class="text-xl font-black text-brand-forest">3.5만원</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 핵심 차별점 -->
+            <div class="mb-20">
+                <h3 class="text-xl font-black text-brand-forest mb-6 pl-2">🔍 해온의 차별화 7 포인트</h3>
+                <div id="diff-points" class="space-y-4">
+                    <!-- JS Renders Diff Points -->
+                </div>
+            </div>
+        </section>
+
+        <!-- [MEDICAL TEAM] -->
+        <section class="mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl font-black text-brand-forest uppercase tracking-widest">Medical Team</h2>
+                <div class="w-10 h-1 bg-emerald-500 mx-auto mt-3"></div>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mb-8">
+                <button onclick="showDoctor(0)" class="doctor-select doctor-card active rounded-[2.5rem] p-5 flex flex-col items-center">
+                    <div class="w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-emerald-500 shadow-sm"><img src="https://cdn.imweb.me/thumbnail/20250801/bf8c943efdc87.jpg" class="w-full h-full object-cover"></div>
+                    <h4 class="font-bold text-sm text-brand-forest">한유경 원장</h4>
+                    <p class="text-[0.6rem] text-emerald-600 font-bold uppercase mt-1">Team Doctor</p>
+                </button>
+                <button onclick="showDoctor(1)" class="doctor-select doctor-card rounded-[2.5rem] p-5 flex flex-col items-center">
+                    <div class="w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-transparent"><img src="https://cdn.imweb.me/thumbnail/20250731/80aa1cb99bdb9.jpg" class="w-full h-full object-cover"></div>
+                    <h4 class="font-bold text-sm text-brand-forest">정지은 원장</h4>
+                    <p class="text-[0.6rem] text-slate-400 font-bold uppercase mt-1">Specialist</p>
+                </button>
+                <button onclick="showDoctor(2)" class="doctor-select doctor-card rounded-[2.5rem] p-5 flex flex-col items-center">
+                    <div class="w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-transparent"><img src="https://cdn.imweb.me/thumbnail/20250731/4618b2bf06bb4.jpg" class="w-full h-full object-cover"></div>
+                    <h4 class="font-bold text-sm text-brand-forest">조내경 원장</h4>
+                    <p class="text-[0.65rem] text-slate-400 font-bold uppercase mt-1">Clinical Dir.</p>
+                </button>
+                <button onclick="showDoctor(3)" class="doctor-select doctor-card rounded-[2.5rem] p-5 flex flex-col items-center opacity-60">
+                    <div class="w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-transparent"><img src="https://cdn.imweb.me/thumbnail/20250731/6cfba1b61688d.jpg" class="w-full h-full object-cover"></div>
+                    <h4 class="font-bold text-sm text-brand-forest">이정욱 원장</h4>
+                    <p class="text-[0.65rem] text-slate-400 font-bold uppercase mt-1">Representative</p>
+                </button>
+            </div>
+            <div id="doctor-content" class="bg-brand-forest rounded-[2.5rem] p-10 text-white min-h-[220px] shadow-2xl relative overflow-hidden transition-all duration-300"></div>
+        </section>
+
+        <!-- [FOOTER & RESERVATION] -->
+        <section class="mt-24 px-2">
+            <div class="bg-brand-sage rounded-[3.5rem] p-12 text-center border border-emerald-100 shadow-inner">
+                <p class="text-emerald-700 font-black text-lg mb-4 italic">“마음의 아픔까지 공감합니다”</p>
+                <h3 class="text-2xl font-black text-brand-forest mb-10 leading-snug">신도림역 테크노마트 2층<br>지금 해온에서 시작하세요.</h3>
+                <a href="https://naver.me/GlJlW9S4" target="_blank" class="inline-flex items-center justify-center w-full py-6 rounded-3xl bg-[#03c75a] text-white font-black text-xl gap-3 shadow-2xl active:scale-[0.98] transition-all">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    네이버 예약하기
+                </a>
+            </div>
+        </section>
+
+        <footer class="mt-20 text-center border-t border-slate-100 pt-10 pb-10">
+            <p class="text-[0.7rem] text-slate-300 font-black tracking-widest mb-2 uppercase">Haeon Korean Medicine Clinic</p>
+            <p class="text-xs text-slate-400 font-medium">&copy; 2026 해온한의원 신도림본원.</p>
+        </footer>
+    </main>
+
+    <!-- 서브 카테고리 뷰 -->
+    <main id="view-category" class="max-w-md mx-auto px-6 py-12 fade-in hidden pb-32">
+        <button onclick="closeCategory()" class="mb-10 flex items-center text-emerald-600 font-black text-sm bg-brand-sage px-6 py-3 rounded-full shadow-sm"><i class="fas fa-arrow-left mr-2"></i> 돌아가기</button>
+        <div class="mb-12">
+            <span id="sub-category-tag" class="text-[0.7rem] font-black text-emerald-600 mb-3 block tracking-[0.3em] uppercase">Chapter Insight</span>
+            <h2 id="sub-category-title" class="text-[2.2rem] font-black text-brand-forest mb-4 leading-tight break-keep"></h2>
+            <p id="sub-category-desc" class="text-slate-500 text-md font-medium leading-relaxed break-keep"></p>
+        </div>
+        <div id="chapter-list" class="flex flex-col gap-5"></div>
+    </main>
+
+    <!-- 바텀 시트 모달 -->
+    <div id="modal-backdrop" class="fixed inset-0 z-40 bg-slate-900/70" onclick="closeModal()"></div>
+    <div id="modal-content" class="fixed inset-x-0 bottom-0 z-50 flex justify-center pointer-events-none">
+        <div class="bg-white w-full max-w-md rounded-t-[3.5rem] shadow-2xl pointer-events-auto flex flex-col h-[88vh]">
+            <div class="px-10 pt-8 pb-5 flex-shrink-0 border-b border-slate-50">
+                <div class="w-16 h-1 bg-slate-100 rounded-full mx-auto mb-8"></div>
+                <div class="flex justify-between items-start">
+                    <div>
+                        <span class="text-emerald-600 font-black text-[0.7rem] uppercase tracking-[0.2em] mb-2 block tracking-widest">Medical Insight</span>
+                        <h3 id="modal-title" class="text-2xl font-black text-brand-forest leading-tight break-keep"></h3>
+                    </div>
+                    <button onclick="closeModal()" class="p-3 bg-slate-50 rounded-full text-slate-300 transition-colors"><i class="fas fa-times text-xl"></i></button>
+                </div>
+            </div>
+            <div id="modal-body" class="px-10 py-10 overflow-y-auto hide-scrollbar flex-grow content-body">
+                <!-- JS 렌더링 -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 데이터 정의 (상세 텍스트 보강) ---
+        const categories = [
+            { id: 'cat1', emoji: '🔬', title: '비만의 현대의학적 정의와 원인', desc: 'WHO가 규정한 비만의 실체와 살이 찌는 5가지 핵심 의료적 원인을 분석합니다.', chapterIds: [1, 2, 3] },
+            { id: 'cat2', emoji: '🩺', title: '해온의 정밀 진단 시스템', desc: 'BWA2.0s 정밀 인바디부터 HRV 자율신경 검사까지, 데이터로 당신의 몸을 증명합니다.', chapterIds: [4, 5, 6] },
+            { id: 'cat3', emoji: '🍃', title: '7가지 기혈수(氣血水) 변증', desc: '에너지, 영양, 수분의 흐름. 당신의 살찌는 체질을 해온만의 7가지 유형으로 진단합니다.', chapterIds: [7, 8, 9] },
+            { id: 'cat4', emoji: '🧪', title: '공리탕(空裏湯)의 과학적 기전', desc: 'Adrenaline 수용체를 깨우는 농축 한약 공리탕과 산삼비만약침의 위력을 공개합니다.', chapterIds: [10, 11, 12] },
+            { id: 'cat5', emoji: '📅', title: '성공적인 다이어트 루틴', desc: '수면, 식단, 요요 방지까지. 지속 가능한 아름다움을 위한 라이프 케어 가이드입니다.', chapterIds: [13, 14, 15] }
+        ];
+
+        const chapters = [
+            // Cat 1
+            { id: 1, title: "비만은 대사 장애 질환입니다", subtitle: "피하지방 vs 내장지방의 해부학적 차이", content: `<div class="intro-box"><p>단순한 외형의 문제가 아닌, 전신 대사 장애의 집합체입니다. ⚠️</p></div><h4>비만의 현대의학적 정의</h4><p>지방 조직의 비대 및 수적 증가로 인해 인슐린 저항성이 생기고, 대사 장애를 동반하는 질환 상태입니다.</p><h4>BMI & 체지방 기준</h4><ul><li><strong>BMI:</strong> 23 초과 시 과체중, 25 초과 시 1단계 비만</li><li><strong>체지방률:</strong> 남성 25% 이상, 여성 30% 이상 시 비만 판정</li></ul><h4>내장지방의 위험성</h4><p>장기를 둘러싼 내장지방은 근육, 간, 심장에 직접 침투하여 당뇨, 고혈압, 뇌졸중의 직접적인 원인이 됩니다.</p>` },
+            { id: 2, title: "살이 찌는 5가지 결정적 원인", subtitle: "인슐린 과다 분비와 환경적 요인", content: `<h4>1. 좌식 생활과 활동량 부족</h4><p>에너지 소비가 적으면 인슐린 분비가 왕성해져 지방 축적 효소가 활발해집니다.</p><h4>2. 잘못된 식사 패턴</h4><p>끼니를 거르면 공복감이 심해져 다음 식사 시 인슐린이 폭발적으로 분비, 지방 합성이 극대화됩니다.</p><h4>3. 의료적 요인</h4><p>피임약, 스테로이드, 항우울제 등의 약물은 대사 속도를 인위적으로 늦출 수 있습니다.</p><h4>4. 노화와 근육량 저하</h4><p>근육이 줄면 기초 대사량이 감소하며 '나잇살'의 주범이 됩니다.</p>` },
+            { id: 3, title: "비만으로 인한 동반 질환", subtitle: "암, 불임, 수면무호흡증의 연관성", content: `<h4>상상을 초월하는 합병증</h4><ul><li><strong>심혈관계:</strong> 동맥경화, 심부전, 뇌경색</li><li><strong>근골격계:</strong> 퇴행성 관절염, 통풍</li><li><strong>소화기:</strong> 역류성 식도염, 담석증</li><li><strong>내분비:</strong> 배란 장애, 무월경, 불임 유발</li></ul><p>남성의 상체 비만은 수면무호흡증의 가장 중요한 독립적 원인입니다.</p>` },
+            // Cat 2
+            { id: 4, title: "BWA2.0s 정밀 인바디 진단", subtitle: "세포 건강도와 부종 지수 측정", content: `<div class="intro-box"><p>일반 인바디와는 차원이 다른 '병의원용 최상위' 사양입니다. 📊</p></div><h4>측정 데이터의 정밀함</h4><ul><li>세포외 수분비 측정을 통한 부종형 비만 판별</li><li>위상각 측정을 통한 세포 건강도 및 영양 상태 진단</li><li>부위별 근육의 질적 평가</li></ul>` },
+            { id: 5, title: "HRV & APG 검사 기전", subtitle: "자율신경 균형과 혈관 노화 측정", content: `<h4>스트레스가 살을 찌우는가?</h4><p>HRV 검사로 자율신경계의 기능을 측정하여 스트레스 저항도를 파악합니다. 스트레스가 높으면 식욕 폭발의 원인이 됩니다.</p><h4>혈관 탄성도(APG)</h4><p>혈관의 노화 상태와 말초 순환 능력을 수치화하여 '어혈형' 비만 여부를 판단합니다.</p>` },
+            { id: 6, title: "기초 혈액 & 간기능 검사", subtitle: "안전한 처방을 위한 의학적 전제조건", content: `<h4>피 한 방울의 데이터</h4><ul><li><strong>간 기능:</strong> 약물 흡수 능력 예측 및 안전성 확보</li><li><strong>혈당/지질:</strong> 이상지질혈증 및 당뇨 전단계 파악</li><li><strong>면역력:</strong> 현재 몸의 기혈 순환 및 염증 수치 확인</li></ul>` },
+            // Cat 3
+            { id: 7, title: "에너지의 문제: 기(氣) 변증", subtitle: "기허, 기울, 기역 유형 분석", content: `<h4>1. 기허형(氣虛)</h4><p>기의 생산 장애로 지방을 태울 에너지가 없습니다. 무력감, 식은땀, 소화 불량이 특징입니다.</p><h4>2. 기울형(氣鬱)</h4><p>스트레스가 기를 막아 식욕을 폭발적으로 유발합니다. 가슴 답답함과 복부 가스가 잦습니다.</p><h4>3. 기역형(氣逆)</h4><p>순환이 역류하여 상열감과 두통이 동반됩니다. 손발은 차고 얼굴만 뜨거운 체질입니다.</p>` },
+            { id: 8, title: "영양과 흐름의 문제: 혈(血) 변증", subtitle: "혈허와 어혈 유형 분석", content: `<h4>4. 혈허형(血虛)</h4><p>영양 공급 능력이 떨어져 대사가 느립니다. 불면, 건망증, 피부 건조가 동반됩니다.</p><h4>5. 어혈형(瘀血)</h4><p>나쁜 피가 정체되어 통증을 유발합니다. 다크서클이 심하고 하복부에 딱딱한 덩어리가 느껴집니다.</p>` },
+            { id: 9, title: "수분 대사의 문제: 수(水) 변증", subtitle: "수체-담음과 음허 유형 분석", content: `<h4>6. 수체-담음형(수滯)</h4><p>수분 배출이 안 되어 몸이 붓고 무겁습니다. 아침에 손발 강직감이 심한 부종형입니다.</p><h4>7. 음허형(陰虛)</h4><p>체액이 말라 허열이 뜹니다. 손발바닥 화끈거림, 변비, 입안 건조를 유발합니다.</p>` },
+            // Cat 4
+            { id: 10, title: "농축 공리탕(空裏湯)의 과학", subtitle: "ẞ3 Adrenaline 수용체 활성화 기전", content: `<div class="intro-box"><p>단순 식욕 억제가 아닌 지방 세포를 직접 타격합니다. 🍵</p></div><h4>공리탕의 핵심 기전</h4><ul><li><strong>ẞ3 Adrenaline 수용체 활성화:</strong> 지방 조직에 분포하는 수용체를 자극하여 열 발생을 유도하고 기초 대사량을 높입니다.</li><li><strong>백색지방 감소:</strong> 내장지방을 선택적으로 타격하여 체지방 배출을 극대화합니다.</li><li><strong>휴대성:</strong> 농축 기술로 한모금 양에 강력한 효과를 담았습니다.</li></ul>` },
+            { id: 11, title: "산삼비만약침 & 전침 요법", subtitle: "부분 지방 타격과 셀룰라이트 분해", content: `<h4>산삼약침의 성분</h4><p>천연 산삼 추출물, 사향, 우황, 웅담이 복합된 고가 약침입니다. 전지방세포의 분화를 억제합니다.</p><h4>임상 결과</h4><ul><li>복부 둘레 유의미한 감소 입증</li><li>기초 대사량의 실질적 증가</li><li>세포 독성 없이 안전한 부분 슬리밍</li></ul>` },
+            { id: 12, title: "뉴트리케어 & 보조 한포", subtitle: "공복감 해결과 건강 균형 완성", content: `<h4>뉴트리케어 선식</h4><p>바쁜 아침 영양 한 끼. 수십 가지 곡물로 맛과 영양을 모두 잡은 체중 조절용 식품입니다.</p><h4>보조 한포</h4><ul><li><strong>조위환:</strong> 다이어트 중 변비 발생 시</li><li><strong>오령산:</strong> 탈수 및 심한 갈증 증상 시</li><li><strong>순기환:</strong> 만성 소화 불량 시</li></ul>` },
+            // Cat 5
+            { id: 13, title: "성공을 위한 인지행동 루틴", subtitle: "식생활 황금률과 수면 가이드", content: `<h4>식생활 원칙</h4><ul><li><strong>아침 식사 필수:</strong> 점심/저녁 폭식을 막는 최선의 전략</li><li><strong>천천히 20분:</strong> 뇌가 포만감을 인지하는 골든타임 확보</li><li><strong>단순 당질 제한:</strong> 면, 빵, 탄산음료는 다이어트의 적</li></ul><h4>수면의 위력</h4><p>8시간 이상의 충분한 수면은 체지방 분해 호르몬을 활성화합니다. 밤 11시 이전 취침을 권장합니다.</p>` },
+            { id: 14, title: "한약 안전성에 대한 진실", subtitle: "간 독성 및 마황 성분의 객관적 데이터", content: `<div class="intro-box"><p>해온은 데이터로 안전함을 증명합니다. 🔬</p></div><h4>안전성 팩트 체크</h4><ul><li><strong>간 손상률:</strong> 대규모 연구 결과 0.1% 미만 (양약보다 낮음)</li><li><strong>마황 처방량:</strong> 미국 FDA 상한선의 절반 이하로 안전하게 설계</li><li><strong>해외 사례:</strong> 일본 의사의 83.8%가 한약 활용</li></ul>` },
+            { id: 15, title: "다이어트 FAQ", subtitle: "요요, 보관법 등 궁금증 해결", content: `<h4>Q. 요요는 왜 오나요?</h4><p>기초 대사량을 무시하고 굶으면 몸은 에너지를 저장하려 합니다. 해온은 대사량을 유지하며 감량합니다.</p><h4>Q. 보관은 어떻게 하나요?</h4><p>서늘한 상온 또는 냉장 보관을 권장하며 1개월 이내 복용이 가장 좋습니다.</p>` }
+        ];
+
+        const diffData = [
+            { title: "진단 시스템", haeon: "BWA2.0s 정밀진단 + 기초혈액검사 + 스트레스/간기능 융합 진단", other: "일반 인바디 + 단순 상담" },
+            { title: "밀착 피드백", haeon: "한의사 + 전담스태프 + AI 상담 (식단/수면/스트레스 리얼타임)", other: "방문 시에만 상담 위주" },
+            { title: "치료 프로그램", haeon: "1:1 맞춤 농축한약 + 전침 + 산삼약침 + 고주파 복합 관리", other: "알약 위주 (약침/관리 제한적)" },
+            { title: "데이터 리포트", haeon: "개인 맞춤식 리포트 (Notion + AI 활용 과학적 공유)", other: "상담 내용 메모 또는 환자 수첩" },
+            { title: "브랜드 철학", haeon: "3대째 전통 계승 + 건강한 삶 전체를 디자인하는 철학", other: "단순 체중감량 수치 중심 사고" }
+        ];
+
+        const doctors = [
+            { name: "한유경 원장", role: "한방비만학회 인증의", desc: "\"건강한 가벼움이 주는 행복, 근거 중심의 의학으로 몸을 설계합니다.\"", details: "• RMSK(미국 근골격계초음파진단자격) 취득<br>• 스포츠의학 전문 팀닥터 활동<br>• 산후 골반 및 관절 비만 집중 케어 전문" },
+            { name: "정지은 원장", role: "전문의/한방비만학회 인증의", desc: "\"여성의 생애 주기를 고려한 섬세한 처방으로 당신의 리듬을 되찾아 드립니다.\"", details: "• 한방 소아/여성과 전문의<br>• 같은 엄마의 마음으로 공감하는 라이프 코칭<br>• 호르몬 불균형 비만 중점 치료" },
+            { name: "조내경 원장", role: "한방비만학회 인증의", desc: "\"요요 없는 다이어트, 당신의 가장 가까운 웰니스 파트너가 되겠습니다.\"", details: "• 만성 통증 조절을 통한 다이어트 효율 극대화<br>• 부분 비만 약침 요법 및 체형 교정 시술 집중<br>• 1:1 맞춤 디톡스 프로그램 설계" },
+            { name: "이정욱 원장", role: "대표원장 / 교수", desc: "\"3대째 이어온 한의학 통찰로 당신의 건강을 근본부터 혁신합니다.\"", details: "• 가천대학교 한의과대학 교수<br>• 20년 임상 노하우와 현대 한의학 연구 매진<br>• 근거 중심의 안전한 다이어트 한약 개발" }
+        ];
+
+        // --- Logic ---
+        function switchTab(tab) {
+            const guideSec = document.getElementById('section-guide');
+            const priceSec = document.getElementById('section-price');
+            const gBtn = document.getElementById('tab-guide');
+            const pBtn = document.getElementById('tab-price');
+            if(tab === 'guide') {
+                guideSec.classList.remove('hidden'); priceSec.classList.add('hidden');
+                gBtn.classList.add('active'); gBtn.classList.remove('text-slate-400');
+                pBtn.classList.remove('active'); pBtn.classList.add('text-slate-400');
+            } else {
+                guideSec.classList.add('hidden'); priceSec.classList.remove('hidden');
+                pBtn.classList.add('active'); pBtn.classList.remove('text-slate-400');
+                gBtn.classList.remove('active'); gBtn.classList.add('text-slate-400');
+            }
+        }
+
+        function renderHome() {
+            const list = document.getElementById('category-list');
+            let h = '';
+            categories.forEach((c, i) => {
+                h += `<button onclick="openCategory('${c.id}')" class="bg-white p-7 rounded-[2.8rem] shadow-[0_15px_45px_rgba(6,78,59,0.05)] border border-slate-50 flex items-center justify-between hover:border-emerald-200 transition-all active:scale-[0.97] group"><div class="text-left flex-1 pr-4"><span class="text-[0.6rem] font-black text-emerald-400 mb-2.5 block tracking-[0.3em] uppercase">Step 0${i + 1}</span><h3 class="text-[1.2rem] font-black text-brand-forest leading-tight mb-2 flex items-center gap-3"><span class="bg-emerald-50 w-10 h-10 rounded-2xl flex items-center justify-center text-xl">${c.emoji}</span> ${c.title}</h3><p class="text-[0.8rem] text-slate-400 font-medium line-clamp-2 break-keep">${c.desc}</p></div><div class="text-slate-200 group-hover:text-emerald-500 transition-colors"><i class="fas fa-chevron-right text-lg"></i></div></button>`;
+            });
+            list.innerHTML = h;
+
+            const diff = document.getElementById('diff-points');
+            let dH = '';
+            diffData.forEach(d => {
+                dH += `<div class="bg-white border border-slate-100 p-6 rounded-[2rem] shadow-sm"><h5 class="font-black text-brand-forest mb-4 flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-500 text-xs"></i>${d.title}</h5><div class="compare-grid"><div class="compare-haeon"><span class="point-tag bg-emerald-500 text-white uppercase tracking-tighter">Haeon</span><p class="text-[0.7rem] font-bold text-emerald-900 leading-snug">${d.haeon}</p></div><div class="compare-others"><span class="point-tag bg-slate-200 text-slate-500 uppercase tracking-tighter">Others</span><p class="text-[0.7rem] font-medium text-slate-400 leading-snug">${d.other}</p></div></div></div>`;
+            });
+            diff.innerHTML = dH;
+        }
+
+        function openCategory(id) {
+            const c = categories.find(x => x.id === id);
+            document.getElementById('sub-category-title').innerText = c.title;
+            document.getElementById('sub-category-desc').innerText = c.desc;
+            const list = document.getElementById('chapter-list');
+            let h = '';
+            c.chapterIds.forEach(cid => {
+                const chap = chapters.find(x => x.id === cid);
+                h += `<button onclick="openModal(${chap.id})" class="bg-white p-6 rounded-[2.2rem] shadow-sm border border-slate-100 flex items-center justify-between hover:border-brand-forest transition-all"><div class="text-left flex-1 pr-4"><h4 class="text-[1.1rem] font-black text-brand-forest mb-1.5">${chap.title}</h4><p class="text-xs text-slate-400 font-bold uppercase">${chap.subtitle}</p></div><div class="bg-brand-sage p-2.5 rounded-full text-emerald-600"><i class="fas fa-plus text-xs"></i></div></button>`;
+            });
+            list.innerHTML = h;
+            document.getElementById('view-home').classList.add('hidden');
+            document.getElementById('view-category').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function closeCategory() { document.getElementById('view-category').classList.add('hidden'); document.getElementById('view-home').classList.remove('hidden'); window.scrollTo(0, 0); }
+
+        function openModal(id) {
+            const chap = chapters.find(x => x.id === id);
+            document.getElementById('modal-title').innerText = chap.title;
+            document.getElementById('modal-body').innerHTML = chap.content;
+            document.getElementById('modal-backdrop').classList.add('active');
+            document.getElementById('modal-content').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() { document.getElementById('modal-backdrop').classList.remove('active'); document.getElementById('modal-content').classList.remove('active'); document.body.style.overflow = ''; }
+
+        function showDoctor(index) {
+            document.querySelectorAll('.doctor-select').forEach((el, idx) => { idx === index ? el.classList.add('active') : el.classList.remove('active'); });
+            const doc = doctors[index];
+            const content = document.getElementById('doctor-content');
+            content.style.opacity = '0';
+            setTimeout(() => {
+                content.innerHTML = `<div class="absolute top-0 right-0 p-10 opacity-10"><i class="fas fa-quote-right text-7xl"></i></div><div class="relative z-10"><h3 class="text-2xl font-black mb-2">${doc.name} <span class="text-[0.7rem] font-bold text-emerald-300 uppercase ml-3 tracking-widest">${doc.role}</span></h3><p class="text-[1.05rem] italic mb-6 text-emerald-50 font-medium leading-relaxed">${doc.desc}</p><div class="text-[0.85rem] leading-relaxed opacity-90 border-t border-emerald-800 pt-6 mt-6 font-medium">${doc.details}</div></div>`;
+                content.style.opacity = '1';
+            }, 200);
+        }
+
+        window.onload = () => { renderHome(); showDoctor(0); };
+    </script>
+</body>
+</html>
